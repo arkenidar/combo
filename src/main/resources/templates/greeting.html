@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Getting Started: Serving Web Content</title> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+</head>
+<body>
+    <!-- Thymeleaf server-side templating -->
+    <p th:text="'Hello, ' + ${name} + '!'" />
+
+    <!-- JQuery for client-side processing -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+    // get JSON from server then do something with it
+    // e.g. a client-side templating (not shown, you can use Ractive.js)
+    $.getJSON("ajax",function(json){alert(json)})
+    </script>
+
+    <!-- example use of Ractive.js -->
+    <script src="https://cdn.jsdelivr.net/npm/ractive"></script>
+    
+    <div id="output"></div>
+    
+    <script id="template1" type="text/ractive">
+        <p>Hello, {{name}}!</p>
+        {{#each list}}
+            <li>{{.}}</li>
+        {{/each}}
+    </script>
+    
+    <script>
+    var ractive = Ractive({
+    target: "#output",
+    template: "#template1",
+    data: {
+        name: "Client",
+        list: [1,2,3],
+    }
+    });
+    $.getJSON("ajax2",function(json){
+        // do something with json
+        ractive.set("list",json)
+    })
+    </script>
+</body>
+</html>
